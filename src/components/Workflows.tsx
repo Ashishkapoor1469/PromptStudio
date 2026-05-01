@@ -1,9 +1,22 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { store } from '@/lib/store';
+import { Chain } from '@/types';
+import WorkflowRunner from './WorkflowRunner';
+import WorkflowCustomizer from './WorkflowCustomizer';
 
 export default function Workflows() {
   const chains = store.getChains();
+  const [runningChain, setRunningChain] = useState<Chain | null>(null);
+  const [customizingChain, setCustomizingChain] = useState<Chain | null>(null);
+
+  if (runningChain) {
+    return <WorkflowRunner chain={runningChain} onClose={() => setRunningChain(null)} />;
+  }
+
+  if (customizingChain) {
+    return <WorkflowCustomizer chain={customizingChain} onClose={() => setCustomizingChain(null)} />;
+  }
 
   return (
     <div className="animate-fade-in">
@@ -63,8 +76,8 @@ export default function Workflows() {
                 </div>
 
                 <div style={{ marginTop: 'var(--space-md)', display: 'flex', gap: 'var(--space-sm)' }}>
-                  <button className="btn btn-primary btn-sm">▶ Run Workflow</button>
-                  <button className="btn btn-secondary btn-sm">🔧 Customize</button>
+                  <button className="btn btn-primary btn-sm" onClick={() => setRunningChain(chain)}>▶ Run Workflow</button>
+                  <button className="btn btn-secondary btn-sm" onClick={() => setCustomizingChain(chain)}>🔧 Customize</button>
                 </div>
               </div>
             );

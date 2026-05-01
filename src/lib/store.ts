@@ -17,6 +17,25 @@ function saveToStorage<T>(key: string, data: T): void {
   localStorage.setItem(`promptstudio_${key}`, JSON.stringify(data));
 }
 
+// ---- Obfuscation Helpers ----
+const OBFUSCATION_KEY = 'ps_secret_2026';
+
+function obfuscate(str: string): string {
+  if (!str) return str;
+  try {
+    const encoded = btoa(Array.from(str).map((c, i) => String.fromCharCode(c.charCodeAt(0) ^ OBFUSCATION_KEY.charCodeAt(i % OBFUSCATION_KEY.length))).join(''));
+    return `enc_${encoded}`;
+  } catch { return str; }
+}
+
+function deobfuscate(str: string): string {
+  if (!str || !str.startsWith('enc_')) return str; // Fallback for old plaintext keys
+  try {
+    const data = atob(str.slice(4));
+    return Array.from(data).map((c, i) => String.fromCharCode(c.charCodeAt(0) ^ OBFUSCATION_KEY.charCodeAt(i % OBFUSCATION_KEY.length))).join('');
+  } catch { return str; } 
+}
+
 // ---- Store class ----
 class PromptStore {
   private prompts: Prompt[] = [];
@@ -51,7 +70,15 @@ class PromptStore {
     if (chainsAdded) saveToStorage('chains', this.chains);
 
     this.executions = loadFromStorage('executions', []);
-    this.apiKeys = loadFromStorage('apiKeys', {});
+    
+    // Load and deobfuscate API keys
+    const rawKeys = loadFromStorage<Record<string, string>>('apiKeys', {});
+    const decodedKeys: Record<string, string> = {};
+    for (const [provider, key] of Object.entries(rawKeys)) {
+      decodedKeys[provider] = deobfuscate(key);
+    }
+    this.apiKeys = decodedKeys;
+    
     this.initialized = true;
   }
 
@@ -159,7 +186,14 @@ class PromptStore {
   // ---- API Keys ----
   setApiKey(provider: string, key: string): void {
     this.apiKeys[provider] = key;
-    saveToStorage('apiKeys', this.apiKeys);
+    
+    // Obfuscate before saving
+    const encodedKeys: Record<string, string> = {};
+    for (const [p, k] of Object.entries(this.apiKeys)) {
+      encodedKeys[p] = obfuscate(k);
+    }
+    saveToStorage('apiKeys', encodedKeys);
+    
     this.notify();
   }
 

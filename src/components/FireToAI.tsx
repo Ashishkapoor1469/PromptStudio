@@ -194,13 +194,38 @@ export default function FireToAI({ initialPrompt, initialPromptData }: FireToAIP
             <div className="input-group" style={{ flex: 1, minWidth: '200px' }}>
               <label>AI Model</label>
               <select className="select" value={selectedModel.id}
-                onChange={e => setSelectedModel(allModels.find(m => m.id === e.target.value)!)}>
+                onChange={e => {
+                  if (e.target.value === 'custom') {
+                    setSelectedModel({
+                      id: 'custom',
+                      name: 'Custom',
+                      provider: selectedModel.provider,
+                      model_id: '',
+                      max_tokens: 8192,
+                      cost_per_1k_input: 0,
+                      cost_per_1k_output: 0,
+                      supports_streaming: true
+                    });
+                  } else {
+                    setSelectedModel(allModels.find(m => m.id === e.target.value)!);
+                  }
+                }}>
                 {allModels.filter(m => m.provider === selectedModel.provider).map(m => (
                   <option key={m.id} value={m.id}>
                     {m.name} {m.cost_per_1k_input > 0 ? `— $${m.cost_per_1k_input}/1K in` : '(Local/Free)'}
                   </option>
                 ))}
+                <option value="custom">✍️ Custom Model...</option>
               </select>
+              {selectedModel.id === 'custom' && (
+                <input 
+                  className="input"
+                  style={{ marginTop: '8px' }}
+                  placeholder="Enter exact model ID (e.g. google/gemma-7b)"
+                  value={selectedModel.model_id}
+                  onChange={e => setSelectedModel({ ...selectedModel, model_id: e.target.value })}
+                />
+              )}
             </div>
             {!hasKey && (
               <span style={{ fontSize: '0.78rem', color: '#f59e0b', padding: '10px 0' }}>

@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     if (provider === 'openai') {
       if (!apiKey) return new Response('OpenAI API key is required', { status: 401 });
       const openai = createOpenAI({ apiKey });
-      aiModel = openai(model);
+      aiModel = openai.chat(model);
     } 
     else if (provider === 'anthropic') {
       if (!apiKey) return new Response('Anthropic API key is required', { status: 401 });
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
         apiKey,
         baseURL: 'https://integrate.api.nvidia.com/v1',
       });
-      aiModel = nvidia(model);
+      aiModel = nvidia.chat(model);
     }
     else if (provider === 'google') {
       if (!apiKey) return new Response('Google API key is required', { status: 401 });
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
         apiKey: apiKey && apiKey !== 'ollama' ? apiKey : 'ollama',
         baseURL: 'http://127.0.0.1:11434/v1',
       });
-      aiModel = ollama(model);
+      aiModel = ollama.chat(model);
     }
     else {
       return new Response('Unsupported provider: ' + provider, { status: 400 });

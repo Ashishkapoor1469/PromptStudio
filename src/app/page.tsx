@@ -20,9 +20,11 @@ export default function Home() {
   const [firePromptText, setFirePromptText] = useState('');
   const [firePromptData, setFirePromptData] = useState<Prompt | undefined>();
   const [, setTick] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   // Force re-render on store changes
   useEffect(() => {
+    setMounted(true);
     store.init();
     const unsub = store.subscribe(() => setTick(t => t + 1));
     return () => { unsub(); };
@@ -43,6 +45,10 @@ export default function Home() {
   const handleFireFromCard = useCallback((prompt: Prompt) => {
     setSelectedPrompt(prompt);
   }, []);
+
+  if (!mounted) {
+    return null; // Prevents hydration mismatch since data comes from localStorage
+  }
 
   return (
     <div className="app-layout">

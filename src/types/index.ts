@@ -261,5 +261,8 @@ export const AI_MODELS: AIModelConfig[] = [
   { id: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro', provider: 'google', model_id: 'gemini-2.5-pro', max_tokens: 1000000, cost_per_1k_input: 0.00125, cost_per_1k_output: 0.01, supports_streaming: true },
   { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash', provider: 'google', model_id: 'gemini-2.5-flash', max_tokens: 1000000, cost_per_1k_input: 0.00015, cost_per_1k_output: 0.0006, supports_streaming: true },
   { id: 'mistral-large', name: 'Mistral Large', provider: 'mistral', model_id: 'mistral-large-latest', max_tokens: 128000, cost_per_1k_input: 0.002, cost_per_1k_output: 0.006, supports_streaming: true },
-  { id: 'nvidia-llama-3-1', name: 'NVIDIA Llama 3.1', provider: 'nvidia', model_id: 'meta/llama-3.1-405b-instruct', max_tokens: 128000, cost_per_1k_input: 0.002, cost_per_1k_output: 0.006, supports_streaming: true },
+  { id: 'nvidia-llama-3-1', name: 'Llama 3.1 405B', provider: 'nvidia', model_id: 'meta/llama-3.1-405b-instruct', max_tokens: 128000, cost_per_1k_input: 0.002, cost_per_1k_output: 0.006, supports_streaming: true },
+  { id: 'nvidia-glm-5', name: 'GLM 5.1', provider: 'nvidia', model_id: 'z-ai/glm-5.1', max_tokens: 128000, cost_per_1k_input: 0.001, cost_per_1k_output: 0.002, supports_streaming: true },
+  { id: 'nvidia-nemotron-340b', name: 'Nemotron 340B', provider: 'nvidia', model_id: 'nvidia/nemotron-4-340b-instruct', max_tokens: 128000, cost_per_1k_input: 0.001, cost_per_1k_output: 0.003, supports_streaming: true },
+  { id: 'nvidia-mixtral', name: 'Mixtral 8x22B', provider: 'nvidia', model_id: 'mistralai/mixtral-8x22b-instruct-v0.1', max_tokens: 64000, cost_per_1k_input: 0.0005, cost_per_1k_output: 0.001, supports_streaming: true },
 ];
