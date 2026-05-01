@@ -23,8 +23,8 @@ export default function Sidebar({ currentView, onNavigate, promptCount }: Sideba
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
-        <div className="sidebar-logo">
-          <span>⚡</span>
+        <div className="sidebar-logo" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <img src="/logo.png" alt="PromptStudio Logo" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
           <span>PromptStudio</span>
         </div>
         <p style={{ fontSize: '0.72rem', color: 'var(--text-tertiary)', marginTop: '4px' }}>
