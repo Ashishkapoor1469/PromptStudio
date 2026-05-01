@@ -12,8 +12,8 @@ export default function WorkflowCustomizer({ chain, onClose }: WorkflowCustomize
   const steps = chain.steps.map(s => store.getPromptById(s.prompt_id)).filter(Boolean);
   
   return (
-    <div className="animate-fade-in" style={{ padding: 'var(--space-xl)' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-2xl)' }}>
+    <div className="animate-fade-in" style={{ padding: 'var(--space-md)' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-xl)', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <h1>🔧 Customize Workflow</h1>
           <p style={{ color: 'var(--text-secondary)' }}>
@@ -29,7 +29,7 @@ export default function WorkflowCustomizer({ chain, onClose }: WorkflowCustomize
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 350px', gap: 'var(--space-2xl)' }}>
+      <div className="workflow-layout-right">
         {/* Left column: Steps builder */}
         <div style={{ background: 'var(--bg-secondary)', padding: 'var(--space-xl)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-subtle)' }}>
           <h3 style={{ marginBottom: 'var(--space-lg)', fontSize: '1.1rem' }}>Workflow Steps</h3>

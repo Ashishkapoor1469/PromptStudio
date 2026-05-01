@@ -139,12 +139,13 @@ export default function Settings() {
                 display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                 padding: '10px 14px', background: 'var(--bg-tertiary)',
                 borderRadius: 'var(--radius-md)', fontSize: '0.82rem',
+                flexWrap: 'wrap', gap: '4px',
               }}>
-                <div>
+                <div style={{ minWidth: 0 }}>
                   <span style={{ fontWeight: 600 }}>{m.name}</span>
-                  <span style={{ color: 'var(--text-tertiary)', marginLeft: '8px' }}>{m.provider}</span>
+                  <span style={{ color: 'var(--text-tertiary)', marginLeft: '8px', fontSize: '0.75rem' }}>{m.provider}</span>
                 </div>
-                <div style={{ color: 'var(--text-tertiary)' }}>
+                <div style={{ color: 'var(--text-tertiary)', flexShrink: 0, fontSize: '0.78rem' }}>
                   {keys[m.provider] ? (
                     <span style={{ color: '#ffb300' }}>● Connected</span>
                   ) : (
@@ -208,7 +209,7 @@ export default function Settings() {
               </div>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', background: 'var(--bg-secondary)', padding: '12px', borderRadius: '6px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
                   <span style={{ fontSize: '0.85rem', fontWeight: 500 }}>1. Download rules file</span>
                   <button className="btn btn-primary btn-sm" onClick={() => downloadRules('.rules.md')}>
                     ⬇️ Download .rules.md
@@ -217,13 +218,14 @@ export default function Settings() {
                 
                 <hr style={{ border: 'none', borderTop: '1px solid var(--border-subtle)' }} />
                 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', flexWrap: 'wrap', gap: '8px' }}>
                   <div style={{ flex: 1 }}>
                     <span style={{ fontSize: '0.85rem', fontWeight: 500 }}>2. Initial Context Prompt</span>
                     <div style={{ 
                       background: 'rgba(0,0,0,0.2)', padding: '8px', borderRadius: '4px', 
                       fontFamily: 'monospace', fontSize: '0.75rem', color: 'var(--text-secondary)',
-                      marginTop: '4px', border: '1px solid var(--border-subtle)' 
+                      marginTop: '4px', border: '1px solid var(--border-subtle)',
+                      wordWrap: 'break-word', wordBreak: 'break-all', whiteSpace: 'pre-wrap'
                     }}>
                       Please read the .rules.md file in this directory first and use it as your base context and coding guidelines before starting work.
                     </div>
@@ -256,7 +258,7 @@ export default function Settings() {
               </div>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', background: 'var(--bg-secondary)', padding: '12px', borderRadius: '6px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
                   <span style={{ fontSize: '0.85rem', fontWeight: 500 }}>Global AI Instructions</span>
                   <button className="btn btn-secondary btn-sm" onClick={() => copyRules('VS Code Settings')}>
                     📋 Copy Rules
@@ -273,7 +275,7 @@ export default function Settings() {
               padding: '16px', background: 'var(--bg-tertiary)',
               borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)',
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
                 <div>
                   <div style={{ fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     🖱️ Cursor IDE
@@ -293,7 +295,7 @@ export default function Settings() {
               padding: '16px', background: 'var(--bg-tertiary)',
               borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)',
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
                 <div>
                   <div style={{ fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     🏄‍♂️ Windsurf IDE

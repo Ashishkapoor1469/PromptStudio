@@ -168,8 +168,8 @@ export default function WorkflowRunner({ chain, onClose }: WorkflowRunnerProps) 
   };
 
   return (
-    <div className="animate-fade-in" style={{ padding: 'var(--space-xl)' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xl)', flexWrap: 'wrap', gap: '16px' }}>
+    <div className="animate-fade-in" style={{ padding: 'var(--space-md)' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-lg)', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <h1 style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <span className={isFinished || !workflowStarted ? '' : 'spin-animation'}>⚙️</span> 
@@ -181,7 +181,7 @@ export default function WorkflowRunner({ chain, onClose }: WorkflowRunnerProps) 
         </div>
         
         {/* Controls */}
-        <div style={{ display: 'flex', gap: '16px', alignItems: 'center', background: 'var(--bg-tertiary)', padding: '8px 16px', borderRadius: 'var(--radius-md)' }}>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', background: 'var(--bg-tertiary)', padding: '8px 12px', borderRadius: 'var(--radius-md)', flexWrap: 'wrap', width: '100%' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Mode:</label>
             <div style={{ display: 'flex', background: 'var(--bg-secondary)', borderRadius: '6px', overflow: 'hidden', border: '1px solid var(--border-subtle)' }}>
@@ -236,11 +236,11 @@ export default function WorkflowRunner({ chain, onClose }: WorkflowRunnerProps) 
             </div>
           )}
 
-          <button className="btn btn-secondary btn-sm" onClick={onClose} style={{ marginLeft: '16px' }}>Close</button>
+          <button className="btn btn-secondary btn-sm" onClick={onClose} style={{ marginLeft: 'auto' }}>Close</button>
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: 'var(--space-2xl)', alignItems: 'start' }}>
+      <div className="workflow-layout-left">
         {/* Left column: Steps pipeline */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {steps.map((step, i) => {
@@ -288,7 +288,7 @@ export default function WorkflowRunner({ chain, onClose }: WorkflowRunnerProps) 
           borderRadius: 'var(--radius-lg)',
           overflow: 'hidden',
           display: 'flex', flexDirection: 'column',
-          height: '600px'
+          minHeight: '300px', maxHeight: '70vh'
         }}>
           <div style={{ padding: '12px 16px', background: '#161b22', borderBottom: '1px solid var(--border-subtle)', display: 'flex', gap: '8px' }}>
             <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ff5f56' }} />

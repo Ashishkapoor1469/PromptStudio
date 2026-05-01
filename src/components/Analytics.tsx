@@ -56,7 +56,7 @@ export default function Analytics() {
         </div>
 
         {/* Charts */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 'var(--space-lg)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 'var(--space-lg)' }}>
           <div className="card" style={{ cursor: 'default' }}>
             <h3 style={{ fontSize: '0.9rem', fontWeight: 700, marginBottom: 'var(--space-md)' }}>
               📈 Executions (14 days)
@@ -85,7 +85,7 @@ export default function Analytics() {
                   }}>
                     <span style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                       <span style={{ color: 'var(--text-tertiary)', fontWeight: 600 }}>#{i + 1}</span>
-                      <span className="truncate" style={{ maxWidth: '180px' }}>{p.title}</span>
+                      <span className="truncate" style={{ maxWidth: '140px' }}>{p.title}</span>
                     </span>
                     <span style={{ color: 'var(--text-tertiary)' }}>
                       {p.usage} uses · ⭐{p.avg_rating.toFixed(1)}

@@ -258,7 +258,7 @@ export default function FireToAI({ initialPrompt, initialPromptData }: FireToAIP
               placeholder="Paste GitHub raw URL or blob URL..." 
               value={githubUrl}
               onChange={e => setGithubUrl(e.target.value)}
-              style={{ flex: 1, minWidth: '250px' }}
+              style={{ flex: 1, minWidth: '0' }}
             />
             <button className="btn btn-secondary" onClick={fetchGithubFile} disabled={isFetchingGithub || !githubUrl}>
               {isFetchingGithub ? '⏳ Fetching...' : '📥 Fetch from GitHub'}
@@ -343,7 +343,7 @@ export default function FireToAI({ initialPrompt, initialPromptData }: FireToAIP
 
         {/* Token info */}
         {tokenInfo && (
-          <div className="token-info">
+          <div className="token-info" style={{ flexWrap: 'wrap' }}>
             <div className="token-info-item">
               <span>📥</span> <strong>{tokenInfo.input.toLocaleString()}</strong> input tokens
             </div>

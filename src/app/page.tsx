@@ -21,6 +21,8 @@ export default function Home() {
   const [firePromptData, setFirePromptData] = useState<Prompt | undefined>();
   const [, setTick] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [showMoreMenu, setShowMoreMenu] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   // Force re-render on store changes
   useEffect(() => {
@@ -50,6 +52,9 @@ export default function Home() {
     return null; // Prevents hydration mismatch since data comes from localStorage
   }
 
+  const bottomNavPrimary = NAV_ITEMS.filter(i => ['library', 'enhancer', 'fire'].includes(i.view));
+  const bottomNavSecondary = NAV_ITEMS.filter(i => !['library', 'enhancer', 'fire'].includes(i.view));
+
   return (
     <div className="app-layout">
       <Sidebar
@@ -68,7 +73,7 @@ export default function Home() {
                   <h1>📚 Prompt Library</h1>
                   <p>{prompts.length} expert prompts ready to fire</p>
                 </div>
-                <div className="search-wrapper" style={{ width: '320px' }}>
+                <div className="search-wrapper" style={{ width: '100%', maxWidth: '320px' }}>
                   <span className="search-icon">🔍</span>
                   <input
                     className="search-input"
@@ -80,7 +85,7 @@ export default function Home() {
               </div>
 
               {/* Category tabs */}
-              <div style={{ display: 'flex', gap: '6px', marginTop: 'var(--space-md)', flexWrap: 'wrap' }}>
+              <div className="category-filters-wrapper" style={{ display: 'flex', gap: '6px', marginTop: 'var(--space-md)', flexWrap: 'wrap' }}>
                 <button
                   className={`tab ${selectedCategory === '' ? 'active' : ''}`}
                   onClick={() => setSelectedCategory('')}
@@ -90,12 +95,18 @@ export default function Home() {
                 {Object.entries(CATEGORY_META).map(([key, meta]) => (
                   <button
                     key={key}
-                    className={`tab ${selectedCategory === key ? 'active' : ''}`}
+                    className={`tab filter-tab-item ${selectedCategory === key ? 'active' : ''}`}
                     onClick={() => setSelectedCategory(key as PromptCategory)}
                   >
-                    {meta.icon} {meta.label}
+                     {meta.icon} {meta.label}
                   </button>
                 ))}
+                <button
+                  className="tab filter-more-btn"
+                  onClick={() => setIsFilterModalOpen(true)}
+                >
+                  ⚙️ More Filters
+                </button>
               </div>
             </div>
 
@@ -112,13 +123,42 @@ export default function Home() {
               </div>
 
               {prompts.length === 0 && (
-                <div style={{ textAlign: 'center', padding: 'var(--space-3xl)', color: 'var(--text-tertiary)' }}>
+               <div style={{ textAlign: 'center', padding: 'var(--space-3xl)', color: 'var(--text-tertiary)' }}>
                   <p style={{ fontSize: '3rem', marginBottom: 'var(--space-md)' }}>🔍</p>
                   <p style={{ fontSize: '1.1rem' }}>No prompts found</p>
                   <p style={{ fontSize: '0.85rem', marginTop: '4px' }}>Try a different search or category</p>
                 </div>
               )}
             </div>
+
+      {/* Mobile Filter Modal */}
+      {isFilterModalOpen && (
+        <div className="modal-overlay animate-fade-in" onClick={() => setIsFilterModalOpen(false)}>
+          <div className="modal animate-slide-up" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>⚙️ Filters</h2>
+              <button className="btn" onClick={() => setIsFilterModalOpen(false)}>✕</button>
+            </div>
+            <div className="modal-body" style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              <button
+                className={`tab ${selectedCategory === '' ? 'active' : ''}`}
+                onClick={() => { setSelectedCategory(''); setIsFilterModalOpen(false); }}
+              >
+                All
+              </button>
+              {Object.entries(CATEGORY_META).map(([key, meta]) => (
+                <button
+                  key={key}
+                  className={`tab ${selectedCategory === key ? 'active' : ''}`}
+                  onClick={() => { setSelectedCategory(key as PromptCategory); setIsFilterModalOpen(false); }}
+                >
+                   {meta.icon} {meta.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
           </div>
         )}
 
@@ -145,20 +185,70 @@ export default function Home() {
         {currentView === 'settings' && <Settings />}
       </main>
 
-      {/* Mobile Bottom Navigation */}
       <nav className="bottom-nav">
-        {NAV_ITEMS.map(item => (
+        {bottomNavPrimary.map(item => (
           <button
             key={item.view}
             className={`bottom-nav-item ${currentView === item.view ? 'active' : ''}`}
-            onClick={() => setCurrentView(item.view)}
+            onClick={() => { setCurrentView(item.view); setShowMoreMenu(false); }}
+            style={{ flex: 1 }}
           >
             <span className="nav-icon">{item.icon}</span>
-            <span style={{ display: currentView === item.view ? 'block' : 'none' }}>
+            <span style={{ 
+              fontSize: '10px', 
+              marginTop: '2px',
+              opacity: currentView === item.view ? 1 : 0.7,
+              fontWeight: currentView === item.view ? 600 : 400
+            }}>
               {item.label.split(' ')[0]}
             </span>
           </button>
         ))}
+        
+        {/* More Button */}
+        <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', flex: 1 }}>
+          {showMoreMenu && (
+            <div className="animate-fade-in" style={{
+              position: 'absolute', bottom: '100%', right: '0', marginBottom: '16px',
+              background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)',
+              borderRadius: 'var(--radius-lg)', padding: '8px', display: 'flex', flexDirection: 'column', gap: '4px',
+              minWidth: '180px', boxShadow: '0 -8px 24px rgba(0,0,0,0.4)', zIndex: 60,
+            }}>
+              {bottomNavSecondary.map(item => (
+                <button
+                  key={item.view}
+                  onClick={() => { setCurrentView(item.view); setShowMoreMenu(false); }}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px',
+                    background: currentView === item.view ? 'rgba(255, 179, 0, 0.12)' : 'transparent',
+                    border: currentView === item.view ? '1px solid rgba(255, 179, 0, 0.4)' : '1px solid transparent', 
+                    color: currentView === item.view ? 'var(--brand-primary)' : 'var(--text-primary)',
+                    borderRadius: '8px', textAlign: 'left', cursor: 'pointer', fontSize: '0.9rem',
+                    fontWeight: currentView === item.view ? 600 : 500,
+                  }}
+                >
+                  <span style={{ fontSize: '1.2rem' }}>{item.icon}</span>
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          )}
+          <button
+            className={`bottom-nav-item ${showMoreMenu || bottomNavSecondary.some(i => i.view === currentView) ? 'active' : ''}`}
+            onClick={() => setShowMoreMenu(!showMoreMenu)}
+            style={{ width: '100%' }}
+          >
+            <span className="nav-icon">⋮</span>
+            <span style={{ 
+              fontSize: '10px', 
+              marginTop: '2px',
+              opacity: (showMoreMenu || bottomNavSecondary.some(i => i.view === currentView)) ? 1 : 0.7,
+              fontWeight: (showMoreMenu || bottomNavSecondary.some(i => i.view === currentView)) ? 600 : 400
+            }}>
+              More
+            </span>
+          </button>
+        </div>
       </nav>
 
       {/* Prompt Detail Modal */}
